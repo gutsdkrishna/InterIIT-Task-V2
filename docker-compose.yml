@@ -1,0 +1,29 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"  # Map host port 3000 to container port 80
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5000"  # Map host port 5000 to container port 5000
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - MONGO_URI=mongodb+srv://kalki_kgp:R3YIYo7CskS0O7SO@kalki.a6ocqag.mongodb.net/
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
