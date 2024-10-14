@@ -10,6 +10,8 @@ import useAuth from './useAuth'; // Adjust the import path as necessary
 import { supabase } from './supabase'; // Adjust the import path as necessary
 import { useNavigate } from 'react-router-dom';
 
+import ItemModal from './ItemModal'; // Import the modal component
+
 
 export default function Dashboard() {
 
@@ -32,6 +34,19 @@ useAuth();
   const [selectedCategory, setSelectedCategory] = useState(''); // State for selected category
   const [loadingGodowns, setLoadingGodowns] = useState(true);
   const [loadingItems, setLoadingItems] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleItemClick = (item) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedItem(null);
+  };
 
   useEffect(() => {
     axios.get('http://localhost:5001/api/godowns')
@@ -203,7 +218,7 @@ useAuth();
         ) : (
           <ItemsList>
             {items.map(item => (
-              <ItemCard key={item.item_id}>
+              <ItemCard key={item.item_id} onClick={() => handleItemClick(item)}>
                 <ItemImageContainer>
                   <ItemImage src={item.image_url} alt={item.name} />
                 </ItemImageContainer>
@@ -219,6 +234,8 @@ useAuth();
           </ItemsList>
         )}
       </Main>
+      {/* Modal for displaying item details */}
+      {isModalOpen && <ItemModal item={selectedItem} onClose={handleCloseModal} />}
     </DashboardContainer>
   );
 }
