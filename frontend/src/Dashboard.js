@@ -17,11 +17,17 @@ export default function Dashboard() {
 
 useAuth(); 
   const navigate = useNavigate(); // Get navigate from React Router
+    const [session, setSession] = useState(null); // Track session manually
+
 
      const handleLogout = async () => {
-    await supabase.auth.signOut(); // Sign out the user
-    navigate('/'); // Redirect to login page after logout
-  };
+  await supabase.auth.signOut();  // Sign out from Supabase
+  localStorage.clear();           // Clear local storage
+  sessionStorage.clear();         // Clear session storage
+  setSession(null);               // Reset session state
+  navigate('/');             // Redirect to login page
+};
+
 
 
 

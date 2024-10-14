@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import { supabase } from './supabase'; // Import Supabase client
 import { motion } from 'framer-motion'; // For animations
@@ -11,7 +10,35 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  
+  const [loading, setLoading] = useState(true); // Add loading state
+  const [session, setSession] = useState(null); // Track session manually
+    const [authenticating, setAuthenticating] = useState(false); // Track OAuth process
+
+
+  useEffect(() => {
+    const checkSession = async () => {
+      setAuthenticating(true); // Show loading during OAuth authentication
+
+      const { data: { session } } = await supabase.auth.getSession();
+      setSession(session); // Set session state
+      setLoading(false); // Stop loading
+      setAuthenticating(false); // End OAuth loading
+    };
+
+    checkSession(); // Check session on component mount
+  }, []);
+
+  // If still loading, show a loading message or spinner
+  if (loading || authenticating) return <div>Loading, please wait...</div>;
+
+  // If there is a session, navigate to the dashboard
+  if (session) {
+    navigate('/dashboard');
+    return null; // Prevent rendering after navigation
+  }
+
+  // If no session, return the login page JSX (rest of your component logic)
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -33,30 +60,34 @@ export default function Login() {
     }
   };
 
-
   const handleSignUpRedirect = () => {
     navigate('/signup'); // Redirect to sign-up page
   };
-  
 
-  // Add the GitHub sign-in logic
   const handleGitHubSignIn = async () => {
-  try {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'github',
-    });
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'github',
+        options: {
+          redirectTo: 'https://ojarldoudzxbivbinjav.supabase.co/auth/v1/callback',
+        }
+      });
 
-    if (error) throw error;
+      if (error) throw error;
 
-    // GitHub sign-in successful
-    console.log('GitHub sign-in successful');
-    navigate('/dashboard');
-  } catch (error) {
-    setError('GitHub Sign-in failed');
-  }
+      // After successful OAuth, check session
+      const { data: { session } } = await supabase.auth.getSession();
+      setSession(session); // Set session state
+
+      if (session) {
+        console.log('GitHub sign-in successful');
+        navigate('/dashboard'); // Navigate after session is verified
+      }
+    } catch (error) {
+      setError('GitHub Sign-in failed: ' + error.message);
+      console.error('GitHub Sign-in Error:', error);
+    }
   };
-  
-
 
   return (
     <>
@@ -96,11 +127,9 @@ export default function Login() {
           </Button>
           {error && <ErrorMessage>{error}</ErrorMessage>}
 
-          {/* Add the forgot password link */}
           <ForgotPassword href="#">Forgot your password?</ForgotPassword>
         </Form>
 
-        {/* Add the GitHub sign-in button */}
         <GitHubButton
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -109,7 +138,6 @@ export default function Login() {
           Sign in with GitHub
         </GitHubButton>
 
-        {/* Sign-up redirect button */}
         <SignUpRedirect>
           Don't have an account? <button onClick={handleSignUpRedirect}>Sign up</button>
         </SignUpRedirect>
@@ -117,4 +145,3 @@ export default function Login() {
     </>
   );
 }
-
