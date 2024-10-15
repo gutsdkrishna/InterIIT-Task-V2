@@ -9,8 +9,8 @@ This project is a web application designed to manage and display information abo
 
 ## Deployment Links
 
-1. **Frontend**: [https://interiit-frontend.azurewebsites.net](https://interiit-frontend-v3.azurewebsites.net)
-2. **Backend**: [https://interiit-backend.azurewebsites.net](https://interiit-backend-v3.azurewebsites.net)
+1. **Frontend**: [https://interiit-frontend-v3.azurewebsites.net](https://interiit-frontend-v3.azurewebsites.net)
+2. **Backend**: [https://interiit-backend-v3.azurewebsites.net](https://interiit-backend-v3.azurewebsites.net)
 
 ## Features
 
