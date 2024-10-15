@@ -7,6 +7,11 @@ const app = express();
 app.use(cors());
 app.use(express.json()); // Include this line to parse JSON request bodies
 
+const corsOptions = {
+  origin: 'https://interiit-frontend-v3.azurewebsites.net', // Frontend's production URL
+  optionsSuccessStatus: 200
+};
+
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('Connected to MongoDB'))

@@ -55,7 +55,7 @@ useAuth();
   };
 
   useEffect(() => {
-    axios.get('http://localhost:5001/api/godowns')
+    axios.get('https://interiit-backend-v3.azurewebsites.net/api/godowns')
       .then(response => {
         setGodowns(response.data);
         setLoadingGodowns(false);
@@ -73,7 +73,7 @@ useAuth();
   // Continue with fetching items
   setLoadingItems(true);
   axios
-    .get(`http://localhost:5001/api/items?godown_id=${godownId}`)
+    .get(`https://interiit-backend-v3.azurewebsites.net/api/items?godown_id=${godownId}`)
     .then((response) => {
       setItems(response.data);
       setLoadingItems(false);
@@ -106,7 +106,7 @@ useAuth();
       setLoadingItems(true);
       try {
         // Make API call with both search term and category
-        const response = await axios.get('http://localhost:5001/api/search-items', {
+        const response = await axios.get('https://interiit-backend-v3.azurewebsites.net/api/search-items', {
           params: {
             search_term: searchQuery,
             category: selectedCategory, // Add category to query params

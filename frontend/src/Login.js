@@ -17,24 +17,25 @@ export default function Login() {
 
   useEffect(() => {
     const checkSession = async () => {
-      setAuthenticating(true); // Show loading during OAuth authentication
+      // Clear local storage and session storage to prevent stale data
+      localStorage.clear();
+      sessionStorage.clear();
 
+      // Check if there's an active session
       const { data: { session } } = await supabase.auth.getSession();
       setSession(session); // Set session state
       setLoading(false); // Stop loading
-      setAuthenticating(false); // End OAuth loading
     };
 
     checkSession(); // Check session on component mount
   }, []);
 
   // If still loading, show a loading message or spinner
-  if (loading || authenticating) return <div>Loading, please wait...</div>;
+  if (loading) return <div>Loading...</div>;
 
   // If there is a session, navigate to the dashboard
   if (session) {
     navigate('/dashboard');
-    return null; // Prevent rendering after navigation
   }
 
   // If no session, return the login page JSX (rest of your component logic)
