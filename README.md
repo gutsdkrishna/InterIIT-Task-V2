@@ -1,74 +1,76 @@
-InterIIT Task Project
-=====================
+Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) installed for containerization.
 
-Overview
---------
+### Running Locally
 
-This project is a web-based application that allows users to view and manage items stored in various godowns (warehouses). The project is divided into a frontend (React) and backend (Node.js, Express, MongoDB), both of which are containerized using Docker for easy setup and deployment.
-
-Thought Process and Design
---------------------------
-
-1.  **Frontend**:
-
-    -   The frontend is built using React and styled components. It is designed to be responsive and user-friendly.
-    -   The main feature is a dashboard where users can view godowns, search for items by category or name, and explore items stored in specific godowns.
-2.  **Backend**:
-
-    -   The backend is built with Node.js and Express, with MongoDB as the database. It provides several APIs to fetch godowns and items, as well as a search feature to find items globally across all godowns.
-    -   It connects to a MongoDB instance and uses a separate database for godowns and items.
-3.  **Dockerization**:
-
-    -   Both the frontend and backend are containerized using Docker. This ensures consistent environments across development and production and simplifies the setup process.
-
-Steps Taken to Implement the Project
-------------------------------------
-
-1.  **Setup**:
-
-    -   Set up the React frontend and Node.js backend separately, ensuring they both run independently.
-    -   Set up MongoDB for storing godown and item data.
-2.  **API Development**:
-
-    -   Created RESTful APIs in the backend for fetching godown data and items, and added a search API for item queries.
-3.  **Frontend Integration**:
-
-    -   Integrated the backend APIs into the React frontend using Axios for HTTP requests. The frontend communicates with the backend to display godowns and item data dynamically.
-4.  **Dockerization**:
-
-    -   Created Dockerfiles for both the frontend and backend and used Docker Compose to run both services simultaneously in containers.
-5.  **Testing and Debugging**:
-
-    -   Debugged issues with API connections, environment variables, and Docker networking to ensure seamless communication between the frontend and backend.
-
-Running the Project Locally
----------------------------
-
-### Prerequisites
-
--   Node.js and npm installed
--   MongoDB running locally or hosted
--   Docker installed
-
-### Steps to Run Locally
-
-1.  **Clone the repository**:
-     ```bash
+1. **Clone the Repository**:
+   ```bash
    git clone <repository-url>
-   cd <repository-directory>```
+   cd InterIIT-Task
+   ```
+   
+2. **Backend Setup**:
+    Navigate to the backend directory:
+   ```bash
+   cd backend
+   ```
+   Install dependencies:
 
-2.  **Access the app**:
+   ```bash
+   npm install
+   ```
 
-    -   Frontend: `http://localhost:3000`
-    -   Backend API: `http://localhost:5000/api` (or depending on your Docker setup)
+   Create a .env file in the backend directory with the following content:
 
-Deployment Links
-----------------
+   ```env
+   MONGO_URI=<your-mongodb-uri>
+   PORT=5000
+   ```
 
--   **Frontend**: [Deployed Frontend URL]
--   **Backend**: [Deployed Backend URL]
+   Start the backend server:
 
-Conclusion
-----------
+   ```bash
+    node server.js
+   ```
 
-This project demonstrates the full-stack development process, from setting up a React frontend and Node.js backend to containerizing the app for deployment. The goal was to create a scalable and maintainable structure using modern tools and technologies.
+3. **Frontend Setup**:
+
+    Navigate to the frontend directory:
+
+    ```bash
+      cd ../frontend
+    ```
+
+   Install dependencies:
+
+   ```bash
+   npm install
+   ```
+   
+   Start the frontend development server:
+
+   ```bash
+   npm start
+   ```
+4. **Access the Application**:
+    Open your browser and go to http://localhost:3000.
+   
+### Running with Docker
+
+1. **Build and Run Containers**:
+   From the root directory of the project, run:
+   Build and Run Containers:
+
+   From the root directory of the project, run:
+
+    ```bash
+    docker-compose up --build
+    ```
+
+2. **Access the Application**:
+
+    Open your browser and go to http://localhost:3000.
+   
+## Conclusion
+
+This project demonstrates a full-stack application with user authentication, data management, and a responsive UI. The use of Docker ensures that the application can be easily deployed and scaled. The deployment on Azure provides a robust platform for hosting the application.
+
