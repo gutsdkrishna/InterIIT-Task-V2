@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import { supabase } from './supabase'; // Import Supabase client
-import { motion } from 'framer-motion'; // For animations
+import {  } from 'framer-motion'; // For animations
 import { GlobalStyle, LoginContainer, Title, Form, InputGroup, Input, InputIcon, Button, ErrorMessage, SignUpRedirect, ForgotPassword, GitHubButton } from './LoginStyles'; // Import your styled components
 import { Mail, Lock } from 'lucide-react'; // Icons
 
@@ -12,7 +12,6 @@ export default function Login() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true); // Add loading state
   const [session, setSession] = useState(null); // Track session manually
-    const [authenticating, setAuthenticating] = useState(false); // Track OAuth process
 
 
   useEffect(() => {
